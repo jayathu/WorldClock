@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "781613344740",
+    "firebase_url": "https://wordclock-45848.firebaseio.com",
+    "project_id": "wordclock-45848",
+    "storage_bucket": "wordclock-45848.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:781613344740:android:77a39c4ac00a85c35049f1",
+        "android_client_info": {
+          "package_name": "com.jayashree.wordclock"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "781613344740-38ct79fn9nu6k5takoo6av0c37ql60so.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCdUA9FjnC5cJZv_5ghgNygjQ7I_4-CIMk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "781613344740-38ct79fn9nu6k5takoo6av0c37ql60so.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
