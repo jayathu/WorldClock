@@ -50,7 +50,7 @@ class Login : AppCompatActivity() {
         et_password.setOnClickListener {
             et_password.setText("")
         }
-        
+
         btn_register.setOnClickListener {
             val email = et_username.text.toString().trim()
             val password = et_password.text.toString().trim()
