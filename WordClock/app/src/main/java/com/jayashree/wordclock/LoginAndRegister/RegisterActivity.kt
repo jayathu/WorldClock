@@ -1,4 +1,4 @@
-package com.jayashree.wordclock
+package com.jayashree.wordclock.LoginAndRegister
 
 import android.content.Context
 import android.content.Intent
@@ -16,10 +16,12 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
+import com.jayashree.wordclock.MainActivity
+import com.jayashree.wordclock.R
 import kotlinx.android.synthetic.main.activity_register.*
 
 
-class Register : AppCompatActivity() {
+class RegisterActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
     private lateinit var fireStore: FirebaseFirestore
@@ -114,7 +116,7 @@ class Register : AppCompatActivity() {
         }
 
         alreadyRegistered.setOnClickListener {
-            val intent = Intent(this, Login::class.java)
+            val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
         }
     }

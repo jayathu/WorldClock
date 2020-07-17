@@ -1,4 +1,4 @@
-package com.jayashree.wordclock
+package com.jayashree.wordclock.LoginAndRegister
 
 import android.content.Context
 import android.content.Intent
@@ -14,9 +14,11 @@ import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.jayashree.wordclock.MainActivity
+import com.jayashree.wordclock.R
 import kotlinx.android.synthetic.main.activity_login.*
 
-class Login : AppCompatActivity() {
+class LoginActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
 
@@ -82,7 +84,7 @@ class Login : AppCompatActivity() {
         }
 
         tv_register.setOnClickListener {
-            val intent = Intent(this, Register::class.java)
+            val intent = Intent(this, RegisterActivity::class.java)
             startActivity(intent)
         }
     }
