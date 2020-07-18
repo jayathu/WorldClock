@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_host"
+    app:startDestination="@id/dashboardFragment">
+
+    <fragment
+        android:id="@+id/dashboardFragment"
+        android:name="com.jayashree.wordclock.DashboardFragment"
+        android:label="Dashboard"
+        tools:layout="@layout/fragment_dashboard" />
+        <action
+            android:id="@+id/dashboard_to_search"
+            android:name="com.jayashree.wordclock.SearchFragment"
+            app:destination="@id/searchFragment"
+            app:enterAnim="@anim/fragment_open_enter"
+            app:exitAnim="@anim/fragment_close_exit"
+            />
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.jayashree.wordclock.SettingsFragment"
+        android:label="Settings"
+        tools:layout="@layout/fragment_settings" />
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.jayashree.wordclock.SearchFragment"
+        android:label="Search"
+        tools:layout="@layout/fragment_search" >
+    </fragment>
+        <action
+            android:id="@+id/search_to_dashboard"
+            android:name="com.jayashree.wordclock.DashboardFragment"
+            app:destination="@id/dashboardFragment"
+            app:enterAnim="@anim/fragment_open_enter"
+            app:exitAnim="@anim/fragment_close_exit">
+            <argument
+                android:name="locationItem"
+                app:argType="string"
+                android:defaultValue='""' />
+        </action>
+</navigation>

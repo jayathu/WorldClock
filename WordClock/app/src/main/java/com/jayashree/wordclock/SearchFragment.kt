@@ -6,6 +6,7 @@ import android.view.*
 import android.widget.SearchView
 import androidx.core.view.MenuItemCompat
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -16,7 +17,7 @@ import kotlinx.android.synthetic.main.fragment_search.view.search
 
 class SearchFragment : Fragment() {
 
-    var searchAdapter = SearchAdapter()
+    var searchAdapter = SearchAdapter { item: String -> itemClicked(item) }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -28,6 +29,11 @@ class SearchFragment : Fragment() {
         return view
     }
 
+    //TODO move to the models
+    fun itemClicked(item: String) {
+        Log.v("DEBUG", "Clicked on " + item)
+        findNavController().navigate(SearchFragmentDirections.searchToDashboard(item))
+    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 

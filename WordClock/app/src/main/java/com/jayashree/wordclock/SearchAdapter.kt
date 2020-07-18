@@ -10,10 +10,15 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.item_clock.view.*
 import kotlin.collections.ArrayList
 
-class SearchAdapter : RecyclerView.Adapter<SearchAdapter.ViewHolder>(), Filterable {
+class SearchAdapter(val clickListener: (String) -> Unit) : RecyclerView.Adapter<SearchAdapter.ViewHolder>(), Filterable {
 
     var locationList = mutableListOf<String>()
     var locationListAll = mutableListOf<String>()
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int, payloads: MutableList<Any>) {
+        super.onBindViewHolder(holder, position, payloads)
+        (holder as ViewHolder).bind(locationList[position], clickListener )
+    }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
         val v = LayoutInflater.from(parent.context).inflate(R.layout.item_search, parent, false)
@@ -35,6 +40,10 @@ class SearchAdapter : RecyclerView.Adapter<SearchAdapter.ViewHolder>(), Filterab
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var tv_city = itemView.tv_city
+
+        fun bind(item: String, clickListener: (String) -> Unit) {
+            itemView.setOnClickListener { clickListener(item) }
+        }
     }
 
     override fun getFilter():Filter {
@@ -44,7 +53,6 @@ class SearchAdapter : RecyclerView.Adapter<SearchAdapter.ViewHolder>(), Filterab
     var myFilter: Filter = object : Filter() {
 
         override fun performFiltering(charSequence: CharSequence): FilterResults {
-            Log.v("DEBUG", charSequence.toString())
             val filteredList: MutableList<String> = ArrayList()
             if (charSequence.isEmpty()) {
                 filteredList.addAll(locationListAll)

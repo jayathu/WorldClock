@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import kotlinx.android.synthetic.main.fragment_dashboard.*
 
 class DashboardFragment : Fragment() {
@@ -22,8 +23,10 @@ class DashboardFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         tv_add.setOnClickListener {
-            activity?.supportFragmentManager?.beginTransaction()
-                ?.replace(R.id.fragment_container, SearchFragment())?.commit()
+//            activity?.supportFragmentManager?.beginTransaction()
+//                ?.replace(R.id.nav_host_fragment, SearchFragment())?.commit()
+
+            findNavController().navigate(R.id.dashboard_to_search)
         }
     }
 
