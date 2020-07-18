@@ -6,6 +6,7 @@ import android.view.*
 import android.widget.SearchView
 import androidx.core.view.MenuItemCompat
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_search.*
@@ -15,7 +16,7 @@ import kotlinx.android.synthetic.main.fragment_search.view.search
 
 class SearchFragment : Fragment() {
 
-    var locationAdapter = LocationAdapter()
+    var searchAdapter = SearchAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -24,65 +25,31 @@ class SearchFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_search, container, false)
 
-//        val dividerItemDecoration = DividerItemDecoration(activity, DividerItemDecoration.VERTICAL)
-//        recycler_view.addItemDecoration(dividerItemDecoration)
-
         return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        view.recycler_view.adapter = locationAdapter
-        var locations = mutableListOf<Location>()
+        view.recycler_view.adapter = searchAdapter
 
-        locations.add(Location( "Africa/Abidjan"))
-        locations.add(Location( "Asia"))
-        locations.add(Location( "Dubai"))
-        locations.add(Location( "Africa/Abidjan"))
-        locations.add(Location( "Africa/Algeria"))
-        locations.add(Location( "Africa/Bissau"))
-        locations.add(Location( "Africa/Cairo"))
-        locations.add(Location( "Africa/Casablanca"))
-        locations.add(Location( "Asia/Chennai"))
-        locations.add(Location( "Asia/Delhi"))
-        locations.add(Location( "Asia/Mumbai"))
-        locations.add(Location( "America/NewYork"))
-        locations.add(Location( "America/California"))
+        val locations = (resources.getStringArray(R.array.locations)).toMutableList()
 
-        locationAdapter.populateListItems(locations)
+        searchAdapter.populateListItems(locations)
         view.recycler_view.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
 
+        val dividerItemDecoration = DividerItemDecoration(activity, DividerItemDecoration.VERTICAL)
+        recycler_view.addItemDecoration(dividerItemDecoration)
+
         search.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
 
             override fun onQueryTextChange(newText: String): Boolean {
-                locationAdapter.filter.filter(newText)
+                searchAdapter.filter.filter(newText)
                 return false
             }
             override fun onQueryTextSubmit(query: String): Boolean {
-                // task HERE
                 return false
             }
         })
     }
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.search_menu, menu)
-        val item = menu.findItem(R.id.action_search)
-        val searchView: SearchView = item.actionView as SearchView
-        search.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-
-            override fun onQueryTextChange(newText: String): Boolean {
-                locationAdapter.filter.filter(newText)
-
-                return false
-            }
-            override fun onQueryTextSubmit(query: String): Boolean {
-                // task HERE
-                return false
-            }
-        })
-
-    }
-
 }

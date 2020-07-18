@@ -4,4 +4,25 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="world">WorldClock</string>
     <string name="settings">Settings</string>
+
+    <string-array name="locations">
+        <item>Indian/Chagos</item>
+        <item>Indian/Christmas</item>
+        <item>Indian/Cocos</item>
+        <item>Indian/Kerguelen</item>
+        <item>Indian/Mahe</item>
+        <item>Indian/Maldives</item>
+        <item>Indian/Reunion</item>
+        <item>MET</item>
+        <item>Pacific/Apia</item>
+        <item>Pacific/Aucland</item>
+        <item>Pacific/Apia</item>
+        <item>Pacific/Pacific</item>
+        <item>Pacific/Apia</item>
+        <item>Pacific/Fakaofo</item>
+        <item>Pacific/Guadalcanal</item>
+        <item>Pacific/Bougainville</item>
+        <item>Pacific/Galapagos</item>
+        <item>Pacific/Enderbury</item>
+    </string-array>
 </resources>
