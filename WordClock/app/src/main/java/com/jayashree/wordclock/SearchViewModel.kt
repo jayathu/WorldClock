@@ -10,6 +10,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import com.jayashree.wordclock.data.Location
+import com.jayashree.wordclock.data.LocationContent
 import com.jayashree.wordclock.data.LocationDatabase
 import com.jayashree.wordclock.data.LocationRepository
 import kotlinx.coroutines.Dispatchers
@@ -37,13 +38,14 @@ class SearchViewModel(application: Application): AndroidViewModel(application) {
 
     }
 
-    fun insert(location: Location) = viewModelScope.launch(Dispatchers.IO) {
-        repository.insert(location)
+    fun insert(location: LocationContent) = viewModelScope.launch(Dispatchers.IO) {
+        //repository.insert(location)
 
         //save in firestore
         val documentReference = fireStore.collection("locations").document(userId.uid).collection("my_timezones").document()
         var cloudLocation = mutableMapOf<String, Any>()
         cloudLocation.put("timezone", location.timezone)
+        cloudLocation.put("locationId", documentReference.id)
 
         documentReference.set(cloudLocation).addOnSuccessListener {
                 ref -> Log.v("DEBUG", "Location added for user " + userId.toString())

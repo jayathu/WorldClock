@@ -9,7 +9,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-@Database(entities = arrayOf(Location::class), version = 1, exportSchema = false)
+@Database(entities = arrayOf(Location::class), version = 2, exportSchema = false)
 public abstract class LocationDatabase : RoomDatabase() {
 
     abstract fun locationDao(): LocationDao

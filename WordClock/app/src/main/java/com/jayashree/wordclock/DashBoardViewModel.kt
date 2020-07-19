@@ -16,6 +16,7 @@ import com.google.firebase.firestore.EventListener
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.jayashree.wordclock.data.Location
+import com.jayashree.wordclock.data.LocationContent
 import com.jayashree.wordclock.data.LocationDatabase
 import com.jayashree.wordclock.data.LocationRepository
 import kotlinx.coroutines.Dispatchers
@@ -25,9 +26,11 @@ class DashBoardViewModel(application: Application): AndroidViewModel(application
 
     private lateinit var auth: FirebaseAuth
     private lateinit var fireStore: FirebaseFirestore
+    var editable: Boolean = false;
 
     private val repository: LocationRepository
     var allLocations: MutableLiveData<List<Location>> = MutableLiveData<List<Location>>()
+    var allLocationContent: MutableLiveData<List<LocationContent>> = MutableLiveData<List<LocationContent>>()
     lateinit var userId: FirebaseUser
 
     init {
@@ -59,15 +62,19 @@ class DashBoardViewModel(application: Application): AndroidViewModel(application
 
             if(documentSnapshots != null) {
                 val allLocationsFirestore = ArrayList<Location>()
+                val tempContents = ArrayList<LocationContent>()
                 val documents = documentSnapshots.documents
                 documents.forEach {
                     val location = it.toObject(Location::class.java)
+                    val content = LocationContent(location!!.timezone, false)
                     if(location != null) {
                         Log.v("DEBUG", "Location: " + location)
                         allLocationsFirestore.add(location)
+                        tempContents.add(content)
                     }
                 }
                 allLocations.value = allLocationsFirestore
+                allLocationContent.value = tempContents
             }
 
         })
@@ -75,6 +82,20 @@ class DashBoardViewModel(application: Application): AndroidViewModel(application
 
     fun deleteAll() = viewModelScope.launch(Dispatchers.IO) {
         repository.deleteAll()
+    }
+
+    fun deleteLocation(location: LocationContent) = viewModelScope.launch(Dispatchers.IO) {
+        //repository.insert(location)
+
+        //save in firestore
+        val documentReference = fireStore.collection("locations").document(userId.uid).collection("my_timezones")
+            .document(location.timezone).delete()
+            .addOnSuccessListener {
+                    ref -> Log.v("DEBUG", "Location deleted" )
+            }
+            .addOnFailureListener {
+                    ref -> Log.v("DEBUG", "Failed to delete")
+            }
     }
 
 }

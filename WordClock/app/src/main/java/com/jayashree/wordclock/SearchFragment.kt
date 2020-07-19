@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.jayashree.wordclock.data.Location
+import com.jayashree.wordclock.data.LocationContent
 import com.jayashree.wordclock.data.LocationViewHolder
 import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.android.synthetic.main.fragment_search.view.*
@@ -36,7 +37,7 @@ class SearchFragment : Fragment() {
 
     //TODO: Move this to viewmodel
     fun itemClicked(item: String) {
-        viewModel.insert(Location(item))
+        viewModel.insert(LocationContent(item, false))
         val action = SearchFragmentDirections.searchToDashboard(item)
         findNavController().navigate(action)
     }
