@@ -68,6 +68,9 @@ dependencies {
     // Firebase UI
     // Used in FirebaseUIActivity.
     implementation 'com.firebaseui:firebase-ui-auth:6.2.1'
+    implementation 'com.google.firebase:firebase-core:17.4.4'
+    implementation 'com.firebaseui:firebase-ui-firestore:6.2.1'
+
 
     //Lifecycle components
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
