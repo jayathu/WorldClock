@@ -6,10 +6,12 @@ import android.view.*
 import android.widget.SearchView
 import androidx.core.view.MenuItemCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.jayashree.wordclock.data.Location
 import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.android.synthetic.main.fragment_search.view.*
 import kotlinx.android.synthetic.main.fragment_search.view.search
@@ -18,6 +20,7 @@ import kotlinx.android.synthetic.main.fragment_search.view.search
 class SearchFragment : Fragment() {
 
     var searchAdapter = SearchAdapter { item: String -> itemClicked(item) }
+    val viewModel: SearchViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,16 +32,17 @@ class SearchFragment : Fragment() {
         return view
     }
 
-    //TODO move to the models
+    //TODO: Move this to viewmodel
     fun itemClicked(item: String) {
-        Log.v("DEBUG", "Clicked on " + item)
-        findNavController().navigate(SearchFragmentDirections.searchToDashboard(item))
+        viewModel.insert(Location(item))
+        val action = SearchFragmentDirections.searchToDashboard(item)
+        findNavController().navigate(action)
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         view.recycler_view.adapter = searchAdapter
-
         val locations = (resources.getStringArray(R.array.locations)).toMutableList()
 
         searchAdapter.populateListItems(locations)

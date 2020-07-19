@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
+import com.jayashree.wordclock.data.Location
 import kotlinx.android.synthetic.main.item_clock.view.*
-import java.util.*
 import kotlin.collections.ArrayList
 
 class LocationAdapter : RecyclerView.Adapter<LocationAdapter.ViewHolder>(), Filterable {
@@ -52,12 +52,6 @@ class LocationAdapter : RecyclerView.Adapter<LocationAdapter.ViewHolder>(), Filt
                 filteredList.addAll(locationListAll)
             } else {
                 filteredList.addAll(locationListAll.filter { it.timezone.toLowerCase().contains(charSequence.toString().toLowerCase())})
-//                for (location in locationListAll) {
-//                    if (location.timezone.contains(charSequence.toString().toLowerCase(Locale.ROOT))) {
-//                        filteredList.add(location)
-//                        Log.v("DEBUG", "Added " + location.timezone)
-//                    }
-//                }
             }
             val filterResults = FilterResults()
             filterResults.values = filteredList

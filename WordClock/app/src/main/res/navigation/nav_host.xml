@@ -10,34 +10,45 @@
         android:id="@+id/dashboardFragment"
         android:name="com.jayashree.wordclock.DashboardFragment"
         android:label="Dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_dashboard">
+        <argument
+            android:name="locationArg"
+            app:argType="string"
+            android:defaultValue='""' />
+
         <action
             android:id="@+id/dashboard_to_search"
             android:name="com.jayashree.wordclock.SearchFragment"
             app:destination="@id/searchFragment"
             app:enterAnim="@anim/fragment_open_enter"
-            app:exitAnim="@anim/fragment_close_exit"
-            />
+            app:exitAnim="@anim/fragment_close_exit">
+        </action>
+    </fragment>
+
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.jayashree.wordclock.SettingsFragment"
         android:label="Settings"
         tools:layout="@layout/fragment_settings" />
+
     <fragment
         android:id="@+id/searchFragment"
         android:name="com.jayashree.wordclock.SearchFragment"
         android:label="Search"
-        tools:layout="@layout/fragment_search" >
-    </fragment>
+        tools:layout="@layout/fragment_search">
         <action
             android:id="@+id/search_to_dashboard"
             android:name="com.jayashree.wordclock.DashboardFragment"
             app:destination="@id/dashboardFragment"
             app:enterAnim="@anim/fragment_open_enter"
             app:exitAnim="@anim/fragment_close_exit">
+
             <argument
-                android:name="locationItem"
+                android:name="locationArg"
                 app:argType="string"
                 android:defaultValue='""' />
+
         </action>
+    </fragment>
+
 </navigation>
