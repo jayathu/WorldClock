@@ -29,7 +29,7 @@ class DashBoardViewModel(application: Application): AndroidViewModel(application
     var editable: Boolean = false;
 
     private val repository: LocationRepository
-    var allLocations: MutableLiveData<List<Location>> = MutableLiveData<List<Location>>()
+    //var allLocations: MutableLiveData<List<Location>> = MutableLiveData<List<Location>>()
     var allLocationContent: MutableLiveData<List<LocationContent>> = MutableLiveData<List<LocationContent>>()
     lateinit var userId: FirebaseUser
 
@@ -61,19 +61,19 @@ class DashBoardViewModel(application: Application): AndroidViewModel(application
             }
 
             if(documentSnapshots != null) {
-                val allLocationsFirestore = ArrayList<Location>()
+                //val allLocationsFirestore = ArrayList<Location>()
                 val tempContents = ArrayList<LocationContent>()
                 val documents = documentSnapshots.documents
                 documents.forEach {
                     val location = it.toObject(Location::class.java)
-                    val content = LocationContent(location!!.timezone, false)
+                    val content = LocationContent(location!!.timezone_id, location!!.timezone, editable)
                     if(location != null) {
-                        Log.v("DEBUG", "Location: " + location)
-                        allLocationsFirestore.add(location)
+                        Log.v("DEBUG", "Location: " + content)
+                        //allLocationsFirestore.add(location)
                         tempContents.add(content)
                     }
                 }
-                allLocations.value = allLocationsFirestore
+                //allLocations.value = allLocationsFirestore
                 allLocationContent.value = tempContents
             }
 
@@ -87,9 +87,10 @@ class DashBoardViewModel(application: Application): AndroidViewModel(application
     fun deleteLocation(location: LocationContent) = viewModelScope.launch(Dispatchers.IO) {
         //repository.insert(location)
 
+        Log.v("DEBUG", "timezone_id = " + location.timezone_id)
         //save in firestore
         val documentReference = fireStore.collection("locations").document(userId.uid).collection("my_timezones")
-            .document(location.timezone).delete()
+            .document(location.timezone_id).delete()
             .addOnSuccessListener {
                     ref -> Log.v("DEBUG", "Location deleted" )
             }

@@ -31,7 +31,7 @@ class DashboardFragment : Fragment() {
 
     private lateinit var dashBoardViewModel: DashBoardViewModel
     var adapter: LocationAdapter = LocationAdapter { item: LocationContent -> itemClicked(item) }
-    private  lateinit var locationAdapterFirestore: FirestoreRecyclerAdapter<Location, LocationViewHolder>
+    //private  lateinit var locationAdapterFirestore: FirestoreRecyclerAdapter<Location, LocationViewHolder>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

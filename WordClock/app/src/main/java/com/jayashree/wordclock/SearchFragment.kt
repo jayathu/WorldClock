@@ -18,6 +18,7 @@ import com.jayashree.wordclock.data.LocationViewHolder
 import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.android.synthetic.main.fragment_search.view.*
 import kotlinx.android.synthetic.main.fragment_search.view.search
+import java.util.*
 
 
 class SearchFragment : Fragment() {
@@ -37,7 +38,7 @@ class SearchFragment : Fragment() {
 
     //TODO: Move this to viewmodel
     fun itemClicked(item: String) {
-        viewModel.insert(LocationContent(item, false))
+        viewModel.insert(LocationContent("", item, false))
         val action = SearchFragmentDirections.searchToDashboard(item)
         findNavController().navigate(action)
     }
@@ -46,7 +47,8 @@ class SearchFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         view.recycler_view.adapter = searchAdapter
-        val locations = (resources.getStringArray(R.array.locations)).toMutableList()
+        val locations = TimeZone.getAvailableIDs().toMutableList()
+        //val locations = (resources.getStringArray(R.array.locations)).toMutableList()
 
         searchAdapter.populateListItems(locations)
         view.recycler_view.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)

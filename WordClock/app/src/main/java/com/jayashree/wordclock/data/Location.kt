@@ -6,4 +6,4 @@ import androidx.room.PrimaryKey
 import java.time.LocalDateTime
 
 @Entity(tableName = "location_table")
-data class Location(@PrimaryKey @ColumnInfo(name = "timezone") val timezone: String = "")
+data class Location(@PrimaryKey @ColumnInfo(name = "timezone") val timezone: String = "", val timezone_id: String = "")

@@ -18,17 +18,17 @@ import kotlinx.coroutines.launch
 
 class SearchViewModel(application: Application): AndroidViewModel(application) {
 
-    private lateinit var auth: FirebaseAuth
-    private lateinit var fireStore: FirebaseFirestore
-    lateinit var userId: FirebaseUser
+    private var auth: FirebaseAuth
+    private var fireStore: FirebaseFirestore
+    private var userId: FirebaseUser
 
-    private val repository: LocationRepository
-    private val allLocations: LiveData<List<Location>>
+    //private val repository: LocationRepository
+    //private val allLocations: LiveData<List<Location>>
 
     init {
-        val locationDao = LocationDatabase.getDatabase(application, viewModelScope).locationDao()
-        repository = LocationRepository(locationDao)
-        allLocations = repository.allLocations
+        //val locationDao = LocationDatabase.getDatabase(application, viewModelScope).locationDao()
+        //repository = LocationRepository(locationDao)
+        //allLocations = repository.allLocations
 
         fireStore = FirebaseFirestore.getInstance()
         auth = FirebaseAuth.getInstance()
@@ -42,10 +42,24 @@ class SearchViewModel(application: Application): AndroidViewModel(application) {
         //repository.insert(location)
 
         //save in firestore
+
         val documentReference = fireStore.collection("locations").document(userId.uid).collection("my_timezones").document()
+//         documentReference.collection(location.timezone_id).document().get()
+//             .addOnSuccessListener {
+//                 documentSnapshot -> if(documentSnapshot != null) {
+//
+//             }else{
+//                    Log.v("DEBUG", "No Such Document. Adding to the dashboard")
+//             }
+//             }
+//             .addOnFailureListener { exception ->
+//                 Log.v("DEBUG", "get failed with ", exception)
+//             }
+
+
         var cloudLocation = mutableMapOf<String, Any>()
         cloudLocation.put("timezone", location.timezone)
-        cloudLocation.put("locationId", documentReference.id)
+        cloudLocation.put("timezone_id", documentReference.id)
 
         documentReference.set(cloudLocation).addOnSuccessListener {
                 ref -> Log.v("DEBUG", "Location added for user " + userId.toString())
