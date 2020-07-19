@@ -42,6 +42,7 @@ class DashboardFragment : Fragment() {
                 adapter.populateListItems(it)
             }
         })
+        //dashBoardViewModel.deleteAll()
 
 //        val query = dashBoardViewModel.getQuery()
 //        var allLocationsFromFirestore  = FirestoreRecyclerOptions.Builder<Location>()

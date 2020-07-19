@@ -47,11 +47,11 @@ class DashBoardViewModel(application: Application): AndroidViewModel(application
     }
 
     fun getQuery() : CollectionReference {
-        return fireStore.collection("locations")
+        return fireStore.collection("locations").document(userId.uid).collection("my_timezones")
     }
 
     fun listenToLocationUpdates() {
-        fireStore.collection("locations").addSnapshotListener(EventListener() { documentSnapshots, e ->
+        fireStore.collection("locations").document(userId.uid).collection("my_timezones").addSnapshotListener(EventListener() { documentSnapshots, e ->
             if (e != null) {
                 Log.e("DEBUG", "Listen failed!", e)
                 return@EventListener
@@ -71,6 +71,10 @@ class DashBoardViewModel(application: Application): AndroidViewModel(application
             }
 
         })
+    }
+
+    fun deleteAll() = viewModelScope.launch(Dispatchers.IO) {
+        repository.deleteAll()
     }
 
 }

@@ -41,7 +41,7 @@ class SearchViewModel(application: Application): AndroidViewModel(application) {
         repository.insert(location)
 
         //save in firestore
-        val documentReference = fireStore.collection("locations").document()
+        val documentReference = fireStore.collection("locations").document(userId.uid).collection("my_timezones").document()
         var cloudLocation = mutableMapOf<String, Any>()
         cloudLocation.put("timezone", location.timezone)
 
