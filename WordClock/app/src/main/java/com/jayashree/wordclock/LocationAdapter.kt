@@ -11,6 +11,8 @@ import com.jayashree.wordclock.data.Location
 import com.jayashree.wordclock.data.LocationContent
 import kotlinx.android.synthetic.main.fragment_dashboard.view.*
 import kotlinx.android.synthetic.main.item_clock.view.*
+import java.text.SimpleDateFormat
+import java.util.*
 import kotlin.collections.ArrayList
 
 class LocationAdapter(val clickListener: (LocationContent) -> Unit) : RecyclerView.Adapter<LocationAdapter.ViewHolder>(), Filterable {
@@ -32,9 +34,18 @@ class LocationAdapter(val clickListener: (LocationContent) -> Unit) : RecyclerVi
     override fun getItemCount() = locationList.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-
         val location: LocationContent = locationList[position]
+        val dateformat = SimpleDateFormat("hh:mm")
+
+        val timeZone = TimeZone.getTimeZone(location.timezone)
+        val timezoneOffset = timeZone.rawOffset / (60 * 1000)
+        val hrs = timezoneOffset / 60
+        val mins = timezoneOffset % 60
+
+        holder.tv_time.text = "$hrs:$mins"
+        holder.tv_am_pm.text = SimpleDateFormat("a").format(Date()).toString()
         holder.tv_city.text = location.timezone
+        //holder.tv_today =
         holder.makeEditable(location.editable)
     }
 
@@ -46,10 +57,14 @@ class LocationAdapter(val clickListener: (LocationContent) -> Unit) : RecyclerVi
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val tv_city = itemView.tv_city
+        val tv_today = itemView.tv_today
+        val tv_time = itemView.tv_time
+        val tv_am_pm = itemView.tv_am_pm
 
         fun bind(item: LocationContent, clickListener: (LocationContent) -> Unit) {
             //makeEditable(false)
             itemView.setOnClickListener { clickListener(item) }
+
         }
 
         fun makeEditable(tf: Boolean){

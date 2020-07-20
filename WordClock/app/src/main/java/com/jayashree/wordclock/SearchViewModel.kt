@@ -44,28 +44,29 @@ class SearchViewModel(application: Application): AndroidViewModel(application) {
         //save in firestore
 
         val documentReference = fireStore.collection("locations").document(userId.uid).collection("my_timezones").document()
-//         documentReference.collection(location.timezone_id).document().get()
-//             .addOnSuccessListener {
-//                 documentSnapshot -> if(documentSnapshot != null) {
-//
-//             }else{
-//                    Log.v("DEBUG", "No Such Document. Adding to the dashboard")
-//             }
-//             }
-//             .addOnFailureListener { exception ->
-//                 Log.v("DEBUG", "get failed with ", exception)
-//             }
+        fireStore.collection("locations").document(userId.uid).collection("my_timezones")
+            .whereEqualTo("timezone", location.timezone).get()
+            .addOnSuccessListener {docRef ->
+                if(docRef.size() > 0) {
+                    Log.v("DEBUG", "Document found!!")
+                }else{
+                    Log.v("DEBUG", "Document not found!!")
+                    var cloudLocation = mutableMapOf<String, Any>()
+                    cloudLocation.put("timezone", location.timezone)
+                    cloudLocation.put("timezone_id", documentReference.id)
+
+                    documentReference.set(cloudLocation).addOnSuccessListener {
+                            ref -> Log.v("DEBUG", "Location added for user " + userId.toString())
+
+                    }.addOnFailureListener {
+                        Log.v("DEBUG", "Failed to add location to firestore")
+                    }
+                }
+            }
+            .addOnFailureListener {
+                Log.v("DEBUG", "Document not found!!")
+            }
 
 
-        var cloudLocation = mutableMapOf<String, Any>()
-        cloudLocation.put("timezone", location.timezone)
-        cloudLocation.put("timezone_id", documentReference.id)
-
-        documentReference.set(cloudLocation).addOnSuccessListener {
-                ref -> Log.v("DEBUG", "Location added for user " + userId.toString())
-
-        }.addOnFailureListener {
-            Log.v("DEBUG", "Failed to add location to firestore")
-        }
     }
 }
