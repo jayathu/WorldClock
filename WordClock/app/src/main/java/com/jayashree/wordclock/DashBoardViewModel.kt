@@ -49,12 +49,14 @@ class DashBoardViewModel(application: Application): AndroidViewModel(application
 
     }
 
-    fun getQuery() : CollectionReference {
-        return fireStore.collection("locations").document(userId.uid).collection("my_timezones")
+    fun getQuery() : Query {
+        //return fireStore.collection("locations").document(userId.uid).collection("my_timezones")
+        return fireStore.collection("locations").whereEqualTo("author", userId.uid)
     }
 
     fun listenToLocationUpdates() {
-        fireStore.collection("locations").document(userId.uid).collection("my_timezones").addSnapshotListener(EventListener() { documentSnapshots, e ->
+        fireStore.collection("locations").whereEqualTo("author", userId.uid).addSnapshotListener(EventListener() { documentSnapshots, e ->
+        //fireStore.collection("locations").document(userId.uid).collection("my_timezones").addSnapshotListener(EventListener() { documentSnapshots, e ->
             if (e != null) {
                 Log.e("DEBUG", "Listen failed!", e)
                 return@EventListener
@@ -89,8 +91,8 @@ class DashBoardViewModel(application: Application): AndroidViewModel(application
 
         Log.v("DEBUG", "timezone_id = " + location.timezone_id)
         //save in firestore
-        val documentReference = fireStore.collection("locations").document(userId.uid).collection("my_timezones")
-            .document(location.timezone_id).delete()
+        val documentReference = fireStore.collection("locations").document(location.timezone_id).delete()
+            //.document(location.timezone_id).delete()
             .addOnSuccessListener {
                     ref -> Log.v("DEBUG", "Location deleted" )
             }

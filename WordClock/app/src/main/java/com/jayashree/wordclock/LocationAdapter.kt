@@ -57,13 +57,13 @@ class LocationAdapter(val clickListener: (LocationContent) -> Unit) : RecyclerVi
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val tv_city = itemView.tv_city
-        val tv_today = itemView.tv_today
         val tv_time = itemView.tv_time
         val tv_am_pm = itemView.tv_am_pm
 
         fun bind(item: LocationContent, clickListener: (LocationContent) -> Unit) {
             //makeEditable(false)
-            itemView.setOnClickListener { clickListener(item) }
+            //itemView.setOnClickListener { clickListener(item) }
+            itemView.iv_delete.setOnClickListener { clickListener(item) }
 
         }
 

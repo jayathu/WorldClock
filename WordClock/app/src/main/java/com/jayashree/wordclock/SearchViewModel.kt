@@ -43,30 +43,56 @@ class SearchViewModel(application: Application): AndroidViewModel(application) {
 
         //save in firestore
 
-        val documentReference = fireStore.collection("locations").document(userId.uid).collection("my_timezones").document()
-        fireStore.collection("locations").document(userId.uid).collection("my_timezones")
-            .whereEqualTo("timezone", location.timezone).get()
-            .addOnSuccessListener {docRef ->
-                if(docRef.size() > 0) {
-                    Log.v("DEBUG", "Document found!!")
-                }else{
-                    Log.v("DEBUG", "Document not found!!")
-                    var cloudLocation = mutableMapOf<String, Any>()
-                    cloudLocation.put("timezone", location.timezone)
-                    cloudLocation.put("timezone_id", documentReference.id)
+//        val documentReference = fireStore.collection("locations").document(userId.uid).collection("my_timezones").document()
+//        fireStore.collection("locations").document(userId.uid).collection("my_timezones")
+//            .whereEqualTo("timezone", location.timezone).get()
+//            .addOnSuccessListener {docRef ->
+//                if(docRef.size() > 0) {
+//                    Log.v("DEBUG", "Document found!!")
+//                }else{
+//                    Log.v("DEBUG", "Document not found!!")
+//                    var cloudLocation = mutableMapOf<String, Any>()
+//                    cloudLocation.put("timezone", location.timezone)
+//                    cloudLocation.put("timezone_id", documentReference.id)
+//
+//                    documentReference.set(cloudLocation).addOnSuccessListener {
+//                            ref -> Log.v("DEBUG", "Location added for user " + userId.toString())
+//
+//                    }.addOnFailureListener {
+//                        Log.v("DEBUG", "Failed to add location to firestore")
+//                    }
+//                }
+//            }
+//            .addOnFailureListener {
+//                Log.v("DEBUG", "Document not found!!")
+//            }
 
-                    documentReference.set(cloudLocation).addOnSuccessListener {
-                            ref -> Log.v("DEBUG", "Location added for user " + userId.toString())
 
-                    }.addOnFailureListener {
-                        Log.v("DEBUG", "Failed to add location to firestore")
-                    }
+        //save in firestore
+        val documentReference = fireStore.collection("locations").document()
+        fireStore.collection("locations").whereEqualTo("timezone", location.timezone).get()
+
+            .addOnSuccessListener {
+            docRef -> if(docRef.size() > 0){
+                Log.v("DEBUG", "Document Found")
+            }else{
+                Log.v("DEBUG", "Document Not Found")
+                        var cloudLocation = mutableMapOf<String, Any>()
+                cloudLocation.put("timezone", location.timezone)
+                cloudLocation.put("timezone_id", documentReference.id)
+                cloudLocation.put("author", userId.uid)
+                cloudLocation.put("permissions", "user")
+
+                documentReference.set(cloudLocation).addOnSuccessListener {
+                    ref -> Log.v("DEBUG", "Location added for user " + userId.toString())
+                }.addOnFailureListener {
+                    Log.v("DEBUG", "Failed to add location to firestore")
                 }
             }
-            .addOnFailureListener {
-                Log.v("DEBUG", "Document not found!!")
-            }
 
+        }.addOnFailureListener {
+            Log.v("DEBUG", "Failed to delete the location")
+        }
 
     }
 }
