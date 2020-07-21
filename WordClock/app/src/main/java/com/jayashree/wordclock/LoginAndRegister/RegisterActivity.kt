@@ -50,7 +50,6 @@ class RegisterActivity : AppCompatActivity() {
 
         auth = Firebase.auth
         fireStore = FirebaseFirestore.getInstance()
-
         if(auth.currentUser != null) {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
@@ -97,7 +96,7 @@ class RegisterActivity : AppCompatActivity() {
                 userid = auth.currentUser?.uid ?: ""
                 //create or get the existing collection from the database
                 val documentReference = fireStore.collection("users").document(userid)
-                val userdata = hashMapOf("full name" to name, "email" to email)
+                val userdata = hashMapOf("full name" to name, "email" to email, "role" to "user")
                 documentReference.set(userdata).addOnSuccessListener {
                     ref -> Log.d("TAG", "User profile is created for $userid")
                 }

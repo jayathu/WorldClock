@@ -26,7 +26,7 @@ class DashBoardViewModel(application: Application): AndroidViewModel(application
 
     private lateinit var auth: FirebaseAuth
     private lateinit var fireStore: FirebaseFirestore
-    var editable: Boolean = false;
+    var editable: Boolean = false
 
     private val repository: LocationRepository
     //var allLocations: MutableLiveData<List<Location>> = MutableLiveData<List<Location>>()
@@ -45,37 +45,47 @@ class DashBoardViewModel(application: Application): AndroidViewModel(application
         userId = auth.currentUser!!
 
         getQuery()
-        listenToLocationUpdates()
 
     }
 
-    fun getQuery() : Query {
-        //return fireStore.collection("locations").document(userId.uid).collection("my_timezones")
-        return fireStore.collection("locations").whereEqualTo("author", userId.uid)
+    fun getQuery(): Query {
+
+        var query: Query = fireStore.collection("locations").whereEqualTo("author", userId.uid)
+
+        fireStore.collection("users").document(userId.uid).addSnapshotListener(
+            EventListener() {
+                    snapshot, e -> if(e != null) {
+                Log.e("DEBUG", "Listen failed!")
+                return@EventListener
+            }
+                if(snapshot != null){
+                    val role = snapshot.getString("role")
+                    if(role.equals("admin")){
+                        query = fireStore.collection("locations")
+                    }
+                    listenToLocationUpdates(query)
+                }
+            })
+        return query
     }
 
-    fun listenToLocationUpdates() {
-        fireStore.collection("locations").whereEqualTo("author", userId.uid).addSnapshotListener(EventListener() { documentSnapshots, e ->
-        //fireStore.collection("locations").document(userId.uid).collection("my_timezones").addSnapshotListener(EventListener() { documentSnapshots, e ->
+    private fun listenToLocationUpdates(query: Query) {
+        query.addSnapshotListener(EventListener() { documentSnapshots, e ->
             if (e != null) {
                 Log.e("DEBUG", "Listen failed!", e)
                 return@EventListener
             }
 
             if(documentSnapshots != null) {
-                //val allLocationsFirestore = ArrayList<Location>()
                 val tempContents = ArrayList<LocationContent>()
                 val documents = documentSnapshots.documents
                 documents.forEach {
                     val location = it.toObject(Location::class.java)
                     val content = LocationContent(location!!.timezone_id, location!!.timezone, editable)
                     if(location != null) {
-                        Log.v("DEBUG", "Location: " + content)
-                        //allLocationsFirestore.add(location)
                         tempContents.add(content)
                     }
                 }
-                //allLocations.value = allLocationsFirestore
                 allLocationContent.value = tempContents
             }
 
@@ -91,8 +101,7 @@ class DashBoardViewModel(application: Application): AndroidViewModel(application
 
         Log.v("DEBUG", "timezone_id = " + location.timezone_id)
         //save in firestore
-        val documentReference = fireStore.collection("locations").document(location.timezone_id).delete()
-            //.document(location.timezone_id).delete()
+        fireStore.collection("locations").document(location.timezone_id).delete()
             .addOnSuccessListener {
                     ref -> Log.v("DEBUG", "Location deleted" )
             }

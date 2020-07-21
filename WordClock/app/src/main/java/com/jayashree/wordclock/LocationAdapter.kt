@@ -7,12 +7,11 @@ import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
-import com.jayashree.wordclock.data.Location
 import com.jayashree.wordclock.data.LocationContent
-import kotlinx.android.synthetic.main.fragment_dashboard.view.*
 import kotlinx.android.synthetic.main.item_clock.view.*
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.concurrent.TimeUnit
 import kotlin.collections.ArrayList
 
 class LocationAdapter(val clickListener: (LocationContent) -> Unit) : RecyclerView.Adapter<LocationAdapter.ViewHolder>(), Filterable {
@@ -35,16 +34,6 @@ class LocationAdapter(val clickListener: (LocationContent) -> Unit) : RecyclerVi
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val location: LocationContent = locationList[position]
-        val dateformat = SimpleDateFormat("hh:mm")
-
-        val timeZone = TimeZone.getTimeZone(location.timezone)
-        val timezoneOffset = timeZone.rawOffset / (60 * 1000)
-        val hrs = timezoneOffset / 60
-        val mins = timezoneOffset % 60
-
-        holder.tv_time.text = "$hrs:$mins"
-        holder.tv_am_pm.text = SimpleDateFormat("a").format(Date()).toString()
-        holder.tv_city.text = location.timezone
         //holder.tv_today =
         holder.makeEditable(location.editable)
     }
@@ -59,12 +48,32 @@ class LocationAdapter(val clickListener: (LocationContent) -> Unit) : RecyclerVi
         val tv_city = itemView.tv_city
         val tv_time = itemView.tv_time
         val tv_am_pm = itemView.tv_am_pm
+        val tv_today = itemView.tv_today
 
         fun bind(item: LocationContent, clickListener: (LocationContent) -> Unit) {
-            //makeEditable(false)
-            //itemView.setOnClickListener { clickListener(item) }
             itemView.iv_delete.setOnClickListener { clickListener(item) }
 
+            val timezone = TimeZone.getTimeZone(item.timezone)
+            val offset = calculateOffset(timezone.rawOffset)
+
+            var dateformat = SimpleDateFormat("hh:mm")
+            val date = Date()
+            dateformat.timeZone = timezone
+
+            tv_time.text  = dateformat.format(date)
+            tv_am_pm.text = SimpleDateFormat("a").format(Date()).toString()
+            tv_city.text = item.timezone
+            tv_today.text = offset
+        }
+
+        private fun calculateOffset(rawOffset: Int): String? {
+            if (rawOffset == 0) {
+                return "+00:00"
+            }
+            val hours: Long = TimeUnit.MILLISECONDS.toHours(rawOffset.toLong())
+            var minutes: Long = TimeUnit.MILLISECONDS.toMinutes(rawOffset.toLong())
+            minutes = Math.abs(minutes - TimeUnit.HOURS.toMinutes(hours))
+            return String.format("%+03d:%02d", hours, Math.abs(minutes))
         }
 
         fun makeEditable(tf: Boolean){

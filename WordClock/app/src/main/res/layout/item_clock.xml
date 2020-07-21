@@ -6,6 +6,16 @@
     android:background="@color/colorPrimaryDark"
     android:padding="12dp">
 
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_today"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Today 0Hrs"
+        android:textColor="@color/colorWhite"
+        android:textSize="18sp"
+        app:layout_constraintStart_toEndOf="@+id/iv_delete"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ImageView
         android:id="@+id/iv_delete"
         android:layout_width="wrap_content"
@@ -30,7 +40,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/tv_time"
         app:layout_constraintStart_toEndOf="@+id/iv_delete"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/tv_today" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_time"

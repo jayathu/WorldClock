@@ -5,9 +5,11 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
+import com.firebase.ui.auth.data.model.User
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.firestore.EventListener
 import com.google.firebase.firestore.FirebaseFirestore
 import com.jayashree.wordclock.data.Location
 import com.jayashree.wordclock.data.LocationContent
@@ -42,33 +44,6 @@ class SearchViewModel(application: Application): AndroidViewModel(application) {
         //repository.insert(location)
 
         //save in firestore
-
-//        val documentReference = fireStore.collection("locations").document(userId.uid).collection("my_timezones").document()
-//        fireStore.collection("locations").document(userId.uid).collection("my_timezones")
-//            .whereEqualTo("timezone", location.timezone).get()
-//            .addOnSuccessListener {docRef ->
-//                if(docRef.size() > 0) {
-//                    Log.v("DEBUG", "Document found!!")
-//                }else{
-//                    Log.v("DEBUG", "Document not found!!")
-//                    var cloudLocation = mutableMapOf<String, Any>()
-//                    cloudLocation.put("timezone", location.timezone)
-//                    cloudLocation.put("timezone_id", documentReference.id)
-//
-//                    documentReference.set(cloudLocation).addOnSuccessListener {
-//                            ref -> Log.v("DEBUG", "Location added for user " + userId.toString())
-//
-//                    }.addOnFailureListener {
-//                        Log.v("DEBUG", "Failed to add location to firestore")
-//                    }
-//                }
-//            }
-//            .addOnFailureListener {
-//                Log.v("DEBUG", "Document not found!!")
-//            }
-
-
-        //save in firestore
         val documentReference = fireStore.collection("locations").document()
         fireStore.collection("locations").whereEqualTo("timezone", location.timezone).get()
 
@@ -81,7 +56,6 @@ class SearchViewModel(application: Application): AndroidViewModel(application) {
                 cloudLocation.put("timezone", location.timezone)
                 cloudLocation.put("timezone_id", documentReference.id)
                 cloudLocation.put("author", userId.uid)
-                cloudLocation.put("permissions", "user")
 
                 documentReference.set(cloudLocation).addOnSuccessListener {
                     ref -> Log.v("DEBUG", "Location added for user " + userId.toString())
