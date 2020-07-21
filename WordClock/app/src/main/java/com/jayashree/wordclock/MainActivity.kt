@@ -7,10 +7,8 @@ import android.os.Bundle
 import android.view.MotionEvent
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {

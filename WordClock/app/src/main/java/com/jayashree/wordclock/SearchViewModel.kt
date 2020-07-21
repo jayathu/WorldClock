@@ -20,6 +20,7 @@ import kotlinx.coroutines.launch
 
 class SearchViewModel(application: Application): AndroidViewModel(application) {
 
+    private val TAG = "CLOCK_LOG"
     private var auth: FirebaseAuth
     private var fireStore: FirebaseFirestore
     private var userId: FirebaseUser
@@ -45,27 +46,27 @@ class SearchViewModel(application: Application): AndroidViewModel(application) {
 
         //save in firestore
         val documentReference = fireStore.collection("locations").document()
-        fireStore.collection("locations").whereEqualTo("timezone", location.timezone).get()
+        fireStore.collection("locations").whereEqualTo("author", userId.uid).whereEqualTo("timezone", location.timezone).get()
 
             .addOnSuccessListener {
             docRef -> if(docRef.size() > 0){
-                Log.v("DEBUG", "Document Found")
+                Log.v(TAG, "Document Found")
             }else{
-                Log.v("DEBUG", "Document Not Found")
+                Log.v(TAG, "Document Not Found")
                         var cloudLocation = mutableMapOf<String, Any>()
                 cloudLocation.put("timezone", location.timezone)
                 cloudLocation.put("timezone_id", documentReference.id)
                 cloudLocation.put("author", userId.uid)
 
                 documentReference.set(cloudLocation).addOnSuccessListener {
-                    ref -> Log.v("DEBUG", "Location added for user " + userId.toString())
+                    ref -> Log.v(TAG, "Location added for user " + userId.toString())
                 }.addOnFailureListener {
-                    Log.v("DEBUG", "Failed to add location to firestore")
+                    exception ->  Log.v(TAG, "Failed to add location to firestore " + exception)
                 }
             }
 
         }.addOnFailureListener {
-            Log.v("DEBUG", "Failed to delete the location")
+            Log.v(TAG, "Failed to delete the location")
         }
 
     }

@@ -58,17 +58,16 @@ class LoginActivity : AppCompatActivity() {
             val password = et_password.text.toString().trim()
 
             if(TextUtils.isEmpty(email)){
-                et_username.setError("Email is Required.")
+                et_username.error = resources.getString(R.string.email_required_message)
                 return@setOnClickListener
             }
             if(TextUtils.isEmpty(password)){
-                et_username.setError("Password is Required.")
+                et_username.error = resources.getString(R.string.password)
                 return@setOnClickListener
             }
             iv_progress.visibility = View.VISIBLE
 
             //Authenticate the user
-
             //Register user into Firebase
             auth.signInWithEmailAndPassword(email, password).addOnCompleteListener{
                     task -> if(task.isSuccessful){

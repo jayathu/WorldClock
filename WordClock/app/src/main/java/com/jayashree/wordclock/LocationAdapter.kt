@@ -1,6 +1,5 @@
 package com.jayashree.wordclock
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,7 +20,7 @@ class LocationAdapter(val clickListener: (LocationContent) -> Unit) : RecyclerVi
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int, payloads: MutableList<Any>) {
         super.onBindViewHolder(holder, position, payloads)
-        (holder as ViewHolder).bind(locationList[position], clickListener )
+        holder.bind(locationList[position], clickListener )
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -34,7 +33,6 @@ class LocationAdapter(val clickListener: (LocationContent) -> Unit) : RecyclerVi
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val location: LocationContent = locationList[position]
-        //holder.tv_today =
         holder.makeEditable(location.editable)
     }
 
@@ -55,15 +53,15 @@ class LocationAdapter(val clickListener: (LocationContent) -> Unit) : RecyclerVi
 
             val timezone = TimeZone.getTimeZone(item.timezone)
             val offset = calculateOffset(timezone.rawOffset)
-
-            var dateformat = SimpleDateFormat("hh:mm")
+            var dateformat = SimpleDateFormat("hh:mm a", Locale.getDefault())
             val date = Date()
             dateformat.timeZone = timezone
+            val dateStr = dateformat.format(date)
 
-            tv_time.text  = dateformat.format(date)
-            tv_am_pm.text = SimpleDateFormat("a").format(Date()).toString()
-            tv_city.text = item.timezone
-            tv_today.text = offset
+            tv_time.text  = dateStr.subSequence(0, dateStr.lastIndex - 2)
+            tv_am_pm.text = dateStr.takeLast(2)
+            tv_city.text =  item.timezone
+            tv_today.text = "GMT $offset"
         }
 
         private fun calculateOffset(rawOffset: Int): String? {
@@ -92,7 +90,6 @@ class LocationAdapter(val clickListener: (LocationContent) -> Unit) : RecyclerVi
     var myFilter: Filter = object : Filter() {
         //Automatic on background thread
         override fun performFiltering(charSequence: CharSequence): FilterResults {
-            Log.v("DEBUG", charSequence.toString())
             val filteredList: MutableList<LocationContent> = ArrayList()
             if (charSequence.isEmpty()) {
                 filteredList.addAll(locationListAll)

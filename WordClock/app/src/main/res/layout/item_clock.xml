@@ -10,9 +10,9 @@
         android:id="@+id/tv_today"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Today 0Hrs"
-        android:textColor="@color/colorWhite"
-        android:textSize="18sp"
+        android:text="@string/today_0hrs"
+        android:textColor="@color/colorGrey"
+        android:textSize="16sp"
         app:layout_constraintStart_toEndOf="@+id/iv_delete"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -25,7 +25,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:paddingRight="12dp"
+        android:paddingEnd="12dp"
         />
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -33,8 +33,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:maxLines="2"
-        android:text="HaywardHaywayd"
-
+        android:text="@string/location_text"
         android:textColor="@color/colorWhite"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -46,7 +45,7 @@
         android:id="@+id/tv_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="1:38"
+        android:text="@string/hh_mm"
         android:textColor="@color/colorWhite"
         android:textSize="32sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -57,7 +56,7 @@
         android:id="@+id/tv_am_pm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="AM"
+        android:text="@string/am"
         android:textColor="@color/colorWhite"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"

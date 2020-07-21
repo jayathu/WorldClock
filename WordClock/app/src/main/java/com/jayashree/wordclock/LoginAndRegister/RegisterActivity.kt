@@ -26,6 +26,7 @@ class RegisterActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var fireStore: FirebaseFirestore
     private var userid: String = ""
+    private val TAG = "TAG-CLOCK"
 
     override fun dispatchTouchEvent(event: MotionEvent): Boolean {
         if (event.action == MotionEvent.ACTION_DOWN) {
@@ -75,15 +76,15 @@ class RegisterActivity : AppCompatActivity() {
 
 
             if(TextUtils.isEmpty(email)){
-                et_username.setError("Email is required.")
+                et_username.error = resources.getString(R.string.email_required_message)
                 return@setOnClickListener
             }
             if(TextUtils.isEmpty(password)){
-                et_password.setError("Password is required!")
+                et_password.error = resources.getString(R.string.pwd_required_message)
                 return@setOnClickListener
             }
             if(password.length < 6){
-                et_password.setError("Password must be atleast 6 characters long")
+                et_password.error = resources.getString(R.string.pwd_six_chars)
                 return@setOnClickListener
             }
 
@@ -98,10 +99,10 @@ class RegisterActivity : AppCompatActivity() {
                 val documentReference = fireStore.collection("users").document(userid)
                 val userdata = hashMapOf("full name" to name, "email" to email, "role" to "user")
                 documentReference.set(userdata).addOnSuccessListener {
-                    ref -> Log.d("TAG", "User profile is created for $userid")
+                    ref -> Log.d(TAG, "User profile is created for $userid")
                 }
                     .addOnFailureListener { e ->
-                        Log.w("TAG", "Error adding document", e)
+                        Log.e(TAG, "Error adding document", e)
                     }
 
                 val intent = Intent(this, MainActivity::class.java)

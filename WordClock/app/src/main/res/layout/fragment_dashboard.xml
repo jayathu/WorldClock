@@ -39,9 +39,10 @@
         android:layout_height="wrap_content"
         android:textColor="@color/colorWhite"
         android:paddingLeft="16dp"
+        android:paddingBottom="16dp"
         android:textSize="32sp"
         android:fontFamily="@font/roboto_medium"
-        android:text="WorldClock"
+        android:text="Dashboard"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_add"/>
 

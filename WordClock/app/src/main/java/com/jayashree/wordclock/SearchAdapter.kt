@@ -1,6 +1,5 @@
 package com.jayashree.wordclock
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,14 +9,14 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.item_clock.view.*
 import kotlin.collections.ArrayList
 
-class SearchAdapter(val clickListener: (String) -> Unit) : RecyclerView.Adapter<SearchAdapter.ViewHolder>(), Filterable {
+class SearchAdapter(private val clickListener: (String) -> Unit) : RecyclerView.Adapter<SearchAdapter.ViewHolder>(), Filterable {
 
     var locationList = mutableListOf<String>()
     var locationListAll = mutableListOf<String>()
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int, payloads: MutableList<Any>) {
         super.onBindViewHolder(holder, position, payloads)
-        (holder as ViewHolder).bind(locationList[position], clickListener )
+        holder.bind(locationList[position], clickListener )
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 

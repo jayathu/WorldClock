@@ -27,10 +27,10 @@ class DashBoardViewModel(application: Application): AndroidViewModel(application
     private lateinit var auth: FirebaseAuth
     private lateinit var fireStore: FirebaseFirestore
     var editable: Boolean = false
+    private val TAG = "TAG-CLOCK"
 
     private val repository: LocationRepository
-    //var allLocations: MutableLiveData<List<Location>> = MutableLiveData<List<Location>>()
-    var allLocationContent: MutableLiveData<List<LocationContent>> = MutableLiveData<List<LocationContent>>()
+    var allLocationContent: MutableLiveData<List<LocationContent>> = MutableLiveData()
     lateinit var userId: FirebaseUser
 
     init {
@@ -55,7 +55,7 @@ class DashBoardViewModel(application: Application): AndroidViewModel(application
         fireStore.collection("users").document(userId.uid).addSnapshotListener(
             EventListener() {
                     snapshot, e -> if(e != null) {
-                Log.e("DEBUG", "Listen failed!")
+                Log.e(TAG, "Listen failed!")
                 return@EventListener
             }
                 if(snapshot != null){
@@ -72,7 +72,7 @@ class DashBoardViewModel(application: Application): AndroidViewModel(application
     private fun listenToLocationUpdates(query: Query) {
         query.addSnapshotListener(EventListener() { documentSnapshots, e ->
             if (e != null) {
-                Log.e("DEBUG", "Listen failed!", e)
+                Log.e(TAG, "Listen failed!", e)
                 return@EventListener
             }
 
@@ -81,10 +81,8 @@ class DashBoardViewModel(application: Application): AndroidViewModel(application
                 val documents = documentSnapshots.documents
                 documents.forEach {
                     val location = it.toObject(Location::class.java)
-                    val content = LocationContent(location!!.timezone_id, location!!.timezone, editable)
-                    if(location != null) {
-                        tempContents.add(content)
-                    }
+                    val content = LocationContent(location!!.timezone_id, location.timezone, editable)
+                    tempContents.add(content)
                 }
                 allLocationContent.value = tempContents
             }
@@ -99,14 +97,13 @@ class DashBoardViewModel(application: Application): AndroidViewModel(application
     fun deleteLocation(location: LocationContent) = viewModelScope.launch(Dispatchers.IO) {
         //repository.insert(location)
 
-        Log.v("DEBUG", "timezone_id = " + location.timezone_id)
         //save in firestore
         fireStore.collection("locations").document(location.timezone_id).delete()
             .addOnSuccessListener {
-                    ref -> Log.v("DEBUG", "Location deleted" )
+                    ref -> Log.v(TAG, "Location deleted" )
             }
             .addOnFailureListener {
-                    ref -> Log.v("DEBUG", "Failed to delete")
+                    ref -> Log.v(TAG, "Failed to delete")
             }
     }
 
