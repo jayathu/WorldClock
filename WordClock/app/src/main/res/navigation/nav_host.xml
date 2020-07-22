@@ -29,7 +29,15 @@
         android:id="@+id/settingsFragment"
         android:name="com.jayashree.wordclock.SettingsFragment"
         android:label="Settings"
-        tools:layout="@layout/fragment_settings" />
+        tools:layout="@layout/fragment_settings">
+        <action
+            android:id="@+id/settings_to_login"
+            android:name="com.jayashree.wordclock.LoginFragment"
+            app:destination="@id/loginFragment"
+            app:enterAnim="@anim/fragment_open_enter"
+            app:exitAnim="@anim/fragment_close_exit">
+        </action>
+    </fragment>
 
     <fragment
         android:id="@+id/searchFragment"
@@ -48,6 +56,49 @@
                 app:argType="string"
                 android:defaultValue='""' />
 
+        </action>
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.jayashree.wordclock.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login">
+
+        <action
+            android:id="@+id/login_to_register"
+            android:name="com.jayashree.wordclock.RegisterFragment"
+            app:destination="@id/registerFragment"
+            app:enterAnim="@anim/fragment_open_enter"
+            app:exitAnim="@anim/fragment_close_exit">
+        </action>
+
+        <action
+            android:id="@+id/login_to_dashboard"
+            android:name="com.jayashree.wordclock.DashboardFragment"
+            app:destination="@id/dashboardFragment"
+            app:enterAnim="@anim/fragment_open_enter"
+            app:exitAnim="@anim/fragment_close_exit">
+        </action>
+    </fragment>
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="com.jayashree.wordclock.RegisterFragment"
+        android:label="fragment_register"
+        tools:layout="@layout/fragment_register">
+
+        <action
+            android:id="@+id/reister_to_login"
+            android:name="com.jayashree.wordclock.LoginFragment"
+            app:destination="@id/loginFragment"
+            app:enterAnim="@anim/fragment_open_enter"
+            app:exitAnim="@anim/fragment_close_exit">
+        </action>
+        <action
+            android:id="@+id/register_to_dashboard"
+            android:name="com.jayashree.wordclock.DashboardFragment"
+            app:destination="@id/dashboardFragment"
+            app:enterAnim="@anim/fragment_open_enter"
+            app:exitAnim="@anim/fragment_close_exit">
         </action>
     </fragment>
 

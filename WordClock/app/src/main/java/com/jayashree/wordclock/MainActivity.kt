@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.MotionEvent
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import kotlinx.android.synthetic.main.activity_main.*
@@ -35,6 +36,5 @@ class MainActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_main)
         NavigationUI.setupWithNavController(nav_view, nav_host_fragment.findNavController())
-
     }
 }

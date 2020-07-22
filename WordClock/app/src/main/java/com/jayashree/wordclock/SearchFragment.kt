@@ -29,7 +29,6 @@ class SearchFragment : Fragment() {
         return view
     }
 
-    //TODO: Move this to viewmodel
     fun itemClicked(item: String) {
         viewModel.insert(LocationContent("", item, false))
         val action = SearchFragmentDirections.searchToDashboard(item)
@@ -41,7 +40,6 @@ class SearchFragment : Fragment() {
 
         view.recycler_view.adapter = searchAdapter
         val locations = TimeZone.getAvailableIDs().toMutableList()
-        //val locations = (resources.getStringArray(R.array.locations)).toMutableList()
 
         searchAdapter.populateListItems(locations)
         view.recycler_view.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)

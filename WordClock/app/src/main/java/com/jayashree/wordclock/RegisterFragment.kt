@@ -1,60 +1,42 @@
-package com.jayashree.wordclock.LoginAndRegister
+package com.jayashree.wordclock
 
-import android.content.Context
-import android.content.Intent
-import android.graphics.Rect
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
-import android.view.MotionEvent
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
 import android.view.View
-import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
+import android.view.ViewGroup
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
-import com.jayashree.wordclock.MainActivity
-import com.jayashree.wordclock.R
-import kotlinx.android.synthetic.main.activity_register.*
+import kotlinx.android.synthetic.main.fragment_register.*
 
-
-class RegisterActivity : AppCompatActivity() {
+class RegisterFragment : Fragment() {
 
     private lateinit var auth: FirebaseAuth
     private lateinit var fireStore: FirebaseFirestore
     private var userid: String = ""
     private val TAG = "TAG-CLOCK"
 
-    override fun dispatchTouchEvent(event: MotionEvent): Boolean {
-        if (event.action == MotionEvent.ACTION_DOWN) {
-            val v = currentFocus
-            if (v is EditText) {
-                val outRect = Rect()
-                v.getGlobalVisibleRect(outRect)
-                if (!outRect.contains(event.rawX.toInt(), event.rawY.toInt())) {
-                    v.clearFocus()
-                    val imm: InputMethodManager =
-                        getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0)
-                }
-            }
-        }
-        return super.dispatchTouchEvent(event)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+
+        return inflater.inflate(R.layout.fragment_register, container, false)
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_register)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         auth = Firebase.auth
         fireStore = FirebaseFirestore.getInstance()
         if(auth.currentUser != null) {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-            finish()
+            findNavController().navigate(RegisterFragmentDirections.registerToDashboard())
         }
 
         et_name.setOnClickListener {
@@ -92,32 +74,31 @@ class RegisterActivity : AppCompatActivity() {
 
             //Register user into Firebase
             auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener{
-                task -> if(task.isSuccessful){
-                Toast.makeText(this, "User Created.", Toast.LENGTH_SHORT).show()
+                    task -> if(task.isSuccessful){
+                Toast.makeText(context, "User Created.", Toast.LENGTH_SHORT).show()
                 userid = auth.currentUser?.uid ?: ""
                 //create or get the existing collection from the database
                 val documentReference = fireStore.collection("users").document(userid)
                 val userdata = hashMapOf("full name" to name, "email" to email, "role" to "user")
                 documentReference.set(userdata).addOnSuccessListener {
-                    ref -> Log.d(TAG, "User profile is created for $userid")
+                        ref -> Log.d(TAG, "User profile is created for $userid")
                 }
                     .addOnFailureListener { e ->
                         Log.e(TAG, "Error adding document", e)
                     }
 
-                val intent = Intent(this, MainActivity::class.java)
-                startActivity(intent)
+                findNavController().navigate(RegisterFragmentDirections.registerToDashboard())
 
                 iv_progress.visibility = View.INVISIBLE
             }else {
-                Toast.makeText(this, "Error! " + task.exception?.message, Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Error! " + task.exception?.message, Toast.LENGTH_SHORT).show()
             }
             }
         }
 
         alreadyRegistered.setOnClickListener {
-            val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
+            findNavController().navigate(RegisterFragmentDirections.reisterToLogin())
         }
     }
+
 }

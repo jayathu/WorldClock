@@ -1,17 +1,12 @@
 package com.jayashree.wordclock
 
 import android.app.Application
-import android.provider.ContactsContract
 import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.EventListener
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
@@ -29,12 +24,13 @@ class DashBoardViewModel(application: Application): AndroidViewModel(application
     var editable: Boolean = false
     private val TAG = "TAG-CLOCK"
 
-    private val repository: LocationRepository
+    private lateinit var repository: LocationRepository
     var allLocationContent: MutableLiveData<List<LocationContent>> = MutableLiveData()
     lateinit var userId: FirebaseUser
 
     init {
-        val locationDao = LocationDatabase.getDatabase(application, viewModelScope).locationDao()
+
+        val locationDao = LocationDatabase.getDatabase(getApplication(), viewModelScope).locationDao()
         repository = LocationRepository(locationDao)
         //allLocations = repository.allLocations
 
@@ -45,7 +41,6 @@ class DashBoardViewModel(application: Application): AndroidViewModel(application
         userId = auth.currentUser!!
 
         getQuery()
-
     }
 
     fun getQuery(): Query {
@@ -97,7 +92,6 @@ class DashBoardViewModel(application: Application): AndroidViewModel(application
     fun deleteLocation(location: LocationContent) = viewModelScope.launch(Dispatchers.IO) {
         //repository.insert(location)
 
-        //save in firestore
         fireStore.collection("locations").document(location.timezone_id).delete()
             .addOnSuccessListener {
                     ref -> Log.v(TAG, "Location deleted" )

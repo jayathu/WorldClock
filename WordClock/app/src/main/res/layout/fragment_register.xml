@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimaryDark"
-    tools:context=".LoginAndRegister.RegisterActivity">
+    tools:context=".RegisterFragment">
 
 
     <TextView
@@ -13,10 +14,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/roboto_light"
-        android:text="@string/welcome_back"
+        android:text="@string/welcome_to_world_clock"
         android:textAlignment="center"
         android:textColor="@color/colorAccent"
-        android:textSize="36sp"
+        android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -25,12 +26,12 @@
         app:layout_constraintVertical_bias="0.19999999" />
 
     <TextView
-        android:id="@+id/signinmessage"
+        android:id="@+id/createnewaccount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:fontFamily="@font/roboto_light"
-        android:text="@string/sign_in_to_continue"
+        android:text="@string/create_new_account"
         android:textColor="@color/colorWhite"
         android:textSize="14sp"
 
@@ -38,21 +39,36 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
+    <EditText
+        android:id="@+id/et_name"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_margin="24dp"
+        android:background="@color/colorPrimary"
+        android:fontFamily="@font/roboto_light"
+        android:padding="10dp"
+        android:hint="@string/full_name"
+        android:textColorHint="@color/colorGrey"
+        android:textColor="@color/colorBrightWhite"
+        app:layout_constraintBottom_toTopOf="@id/et_username"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/createnewaccount" />
 
     <EditText
         android:id="@+id/et_username"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_margin="24dp"
-        android:hint="@string/username"
-        android:textColorHint="@color/colorGrey"
         android:background="@color/colorPrimary"
         android:fontFamily="@font/roboto_light"
         android:padding="10dp"
+        android:hint="@string/email"
+        android:textColorHint="@color/colorGrey"
         android:textColor="@color/colorBrightWhite"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/signinmessage" />
+        app:layout_constraintTop_toBottomOf="@id/et_name" />
 
     <EditText
         android:id="@+id/et_password"
@@ -70,42 +86,42 @@
         app:layout_constraintTop_toBottomOf="@id/et_username"
         tools:layout_editor_absoluteX="24dp" />
 
-    <Button
-        android:id="@+id/btn_register"
-        android:layout_width="175dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="64dp"
-        android:background="@color/colorOrange"
-        android:fontFamily="@font/roboto_medium"
-        android:text="@string/login"
-        android:textColor="@color/colorWhite"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/et_password" />
-
-    <TextView
-        android:id="@+id/tv_register"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:fontFamily="@font/roboto_light"
-        android:text="@string/don_t_have_an_account_register_here"
-        android:textColor="@color/colorWhite"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_register" />
-
     <ImageView
         android:id="@+id/iv_progress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="invisible"
         android:src="@drawable/ic_cached_white_36dp"
+        app:layout_constraintBottom_toTopOf="@+id/btn_register"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_register"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@id/et_password" />
+
+    <Button
+        android:id="@+id/btn_register"
+        android:layout_width="175dp"
+        android:layout_height="50dp"
+        android:background="@color/colorOrange"
+        android:fontFamily="@font/roboto_medium"
+        android:text="@string/create_account"
+        android:textColor="@color/colorWhite"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/et_password" />
+
+    <TextView
+        android:id="@+id/alreadyRegistered"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:fontFamily="@font/roboto_light"
+        android:text="@string/already_registered_login_here"
+        android:textColor="@color/colorWhite"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_register" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
