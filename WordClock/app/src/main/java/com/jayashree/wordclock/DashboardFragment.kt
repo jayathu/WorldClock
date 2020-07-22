@@ -7,8 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,7 +17,7 @@ import org.koin.android.viewmodel.ext.android.viewModel
 
 class DashboardFragment : Fragment() {
 
-    val dashBoardViewModel: DashBoardViewModel by viewModel()
+    private val dashBoardViewModel: DashBoardViewModel by viewModel()
 
     private var adapter: LocationAdapter = LocationAdapter { item: LocationContent -> itemClicked(item) }
 
